@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send("Welcome to Vidly");
+  res.send("Welcome to Vid-Let");
 });
 
 app.post('/api/genres', (req, res) => {
@@ -53,7 +53,7 @@ app.delete('/api/genres/:id', (req, res) => {
   res.send(genre);
 });
 
-const port = proces.env.port || 3000;
+const port = process.env.port || 3000;
 app.listen(port, () => {
   console.log(`Listening on port: ${port}...`);
 });
