@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const index = require('./routes/index');
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
+const movies = require('./routes/movies');
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,7 @@ mongoose.connect('mongodb://localhost/vid-let')
 app.use('/', index);
 app.use('/api/genres', genres);
 app.use('/api/customers', customers);
+app.use('/api/movies', movies);
 
 const port = process.env.port || 3000;
 app.listen(port, () => {
