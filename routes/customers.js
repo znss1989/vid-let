@@ -4,9 +4,22 @@ const mongoose = require('mongoose');
 const utils = require('../utils');
 
 const customerSchema = new mongoose.Schema({
-  name: String,
-  phone: String,
-  isGold: Boolean
+  name: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 50
+  },
+  phone: {
+    type: String,
+    required: true,
+    minlength: 6,
+    maxlength: 15
+  },
+  isGold: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const Customer = mongoose.model('Customer', customerSchema);
@@ -17,7 +30,7 @@ router.post('/', async (req, res) => {
   const {error} = utils.validateCustomer(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const {name, phone='', isGold} = req.body;
+  const {name, phone='000000', isGold=false} = req.body;
   let customer = new Customer({
     name,
     phone,
@@ -28,7 +41,8 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
   const customers = await Customer
-    .find();
+    .find()
+    .sort('name');
   res.send(customers);
 });
 
@@ -43,7 +57,7 @@ router.put('/:id', async (req, res) => {
   const {error} = utils.validateCustomer(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const {name, phone='', isGold} = req.body;
+  const {name, phone='000000', isGold=false} = req.body;
   const customer = await Customer.findByIdAndUpdate(req.body.id, {
     name,
     phone,
